@@ -1,0 +1,113 @@
+import os
+from datetime import date
+
+# Define the README file path
+README_PATH = "README.md"
+
+# List of DSA categories
+PROBLEM_DIRS = [
+    "Arrays", 
+    "String",
+    "Hash Table",
+    "Dynamic Programming",
+    "Math",
+    "Sorting",
+    "Greedy",
+    "Depth-First Search",
+    "Binary Search",
+    "Database",
+    "Matrix",
+    "Tree",
+    "Breadth-First Search",
+    "Bit Manipulation",
+    "Two Pointers",
+    "Prefix Sum",
+    "Heap (Priority Queue)",
+    "Binary Tree",
+    "Simulation",
+    "Stack",
+    "Graph",
+    "Counting",
+    "Sliding Window",
+    "Design",
+    "Enumeration",
+    "Backtracking",
+    "Union Find",
+    "Linked List",
+    "Number Theory",
+    "Ordered Set",
+    "Monotonic Stack",
+    "Segment Tree",
+    "Trie",
+    "Combinatorics",
+    "Bitmask",
+    "Queue",
+    "Recursion",
+    "Divide and Conquer",
+    "Memoization",
+    "Binary Indexed Tree",
+    "Geometry",
+    "Binary Search Tree",
+    "Hash Function",
+    "String Matching",
+    "Topological Sort",
+    "Shortest Path",
+    "Rolling Hash",
+    "Game Theory",
+    "Interactive",
+    "Data Stream",
+    "Monotonic Queue",
+    "Brainteaser",
+    "Randomized",
+    "Merge Sort",
+    "Doubly-Linked List",
+    "Counting Sort",
+    "Iterator",
+    "Concurrency",
+    "Probability and Statistics",
+    "Quickselect",
+    "Suffix Array",
+    "Bucket Sort",
+    "Line Sweep",
+    "Minimum Spanning Tree",
+    "Shell",
+    "Reservoir Sampling",
+    "Strongly Connected Component",
+    "Eulerian Circuit",
+    "Radix Sort",
+    "Rejection Sampling",
+    "Biconnected Component"
+]
+
+# Define table header
+TABLE_HEADER = "| Date | Problem | Topic | Solution |\n|------|---------|--------|----------|\n"
+
+# Read existing README file if present
+if os.path.exists(README_PATH):
+    with open(README_PATH, "r") as f:
+        lines = f.readlines()
+
+# Find existing table index
+start_idx = next((i for i, line in enumerate(lines) if "| Date |" in line), len(lines))
+table_content = "".join(lines[start_idx + 1:]) if start_idx < len(lines) else ""
+
+# Scan for new problems in topic directories
+new_entries = []
+SUPPORTED_EXTENSIONS = (".js", ".py", ".cpp", ".java")  # Now includes JavaScript
+for topic in PROBLEM_DIRS:
+    if os.path.exists(topic):
+        for file in os.listdir(topic):
+            if file.endswith(SUPPORTED_EXTENSIONS):
+                problem_name = file.replace("_", " ").rsplit(".", 1)[0]  # Remove underscores & extension
+                solution_path = f"[{file}]({topic}/{file})"
+                new_entries.append(f"| {date.today()} | {problem_name} | {topic} | {solution_path} |\n")
+
+# Update README only if new problems are found
+if new_entries:
+    with open(README_PATH, "w") as f:
+        f.writelines(lines[:start_idx + 1] if start_idx < len(lines) else lines)  # Preserve content before table
+        f.write(TABLE_HEADER)  # Ensure table header is present
+        f.writelines(new_entries + [table_content])  # Append new problems & retain old ones
+    print("✅ README updated with new problems!")
+else:
+    print("No new problems found.")
