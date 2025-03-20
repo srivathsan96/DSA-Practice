@@ -72,7 +72,7 @@ for category in VALID_CATEGORIES:
     for filename in sorted(os.listdir(category_path)):  # Sort files alphabetically
         if filename.endswith((".py", ".cpp", ".java", ".js", ".ts")):  # Filter solution files
             problem_name = filename.replace("_", " ").rsplit(".", 1)[0].title()
-            problem_path = os.path.join(category, filename)  # Relative path
+            problem_path = f"{category}/{filename}"  # Convert to forward-slash format
             
             if problem_name.lower() not in existing_problems:  # Add only if not already present
                 last_index += 1  # Increment serial number
